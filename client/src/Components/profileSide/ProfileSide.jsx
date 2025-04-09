@@ -1,10 +1,10 @@
 import React from "react";
 import ProfileCard from "../ProfileCard.jsx/ProfileCard";
-import { UilSetting } from "@iconscout/react-unicons";
 import HomeIcon from "@mui/icons-material/Home";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import SettingsIcon from '@mui/icons-material/Settings';
 import "./ProfileSide.css";
 
 
@@ -31,7 +31,7 @@ const ProfileSide = () => {
           </Link>
           <Link to="/settings">
             <div className="menu-items">
-              <UilSetting style={{ marginRight: 10, color: "#3db3f3" }} />
+              <SettingsIcon style={{ marginRight: 10, color: "#3db3f3" }} />
               Settings
             </div>
           </Link>
