@@ -14,8 +14,8 @@ const Home = () => {
   return (
     <div className="Home">
       <ProfileSide />
-      {/* <PostSide />
-      <RightSide /> */}
+      <PostSide />
+      <RightSide />
     </div>
   )
 }
