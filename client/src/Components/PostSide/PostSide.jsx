@@ -1,10 +1,12 @@
-import React from 'react'
-
+import React, { useState } from 'react'
+import Posts from '../Posts/Posts'
+import PostShare from '../PostShare/PostShare'
+import './PostSide.css'
 const PostSide = () => {
   return (
-    <div>
-      
-    </div>
+   <div className="PostSide">
+       <PostShare />
+   </div>
   )
 }
 
