@@ -44,8 +44,9 @@ const PostShare = () => {
     }
   };
 
-  const postImage =  (e) => {
-  }
+  const postImage = (e) => {
+    console.log(image)
+  };
 
   return (
     <div className="PostShare">

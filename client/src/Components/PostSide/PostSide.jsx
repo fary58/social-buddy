@@ -6,6 +6,7 @@ const PostSide = () => {
   return (
    <div className="PostSide">
        <PostShare />
+       <Posts />
    </div>
   )
 }
