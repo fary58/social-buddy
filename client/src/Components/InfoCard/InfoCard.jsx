@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./InfoCard.css";
-import { UilPen } from "@iconscout/react-unicons";
-import ProfileModal from "../ProfileModal.jsx/ProfileModal";
+import ProfileModal from "../ProfileModal/ProfileModal";
 
+import CancelIcon from "@mui/icons-material/Cancel";
 const InfoCard = () => {
   const [modalOpened, setModalOpened] = useState(false);
   return (
@@ -10,7 +10,7 @@ const InfoCard = () => {
       <div className="infoHead">
         <h4>Your Info</h4>
         <div>
-          <UilPen
+          <CancelIcon
             width="2rem"
             height="1.2rem"
             onClick={() => setModalOpened(true)}
