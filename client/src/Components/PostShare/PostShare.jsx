@@ -44,8 +44,22 @@ const PostShare = () => {
     }
   };
 
-  const postImage = (e) => {
-    console.log(image)
+  const postImage = async (e) => {
+   if(image != null){
+    const formData = new FormData();
+    formData.append("images", image.base64String);
+    formData.append("name","image")
+    formData.append("userId", localStorage.getItem("userId"));
+    formData.append("desc",desc)
+    formData.append("likes",0)
+    formData.append("liked",false)
+
+    const response = await fetch("http://localhost:8080/api/posts/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+   }
   };
 
   return (

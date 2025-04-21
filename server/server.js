@@ -19,7 +19,7 @@ app.use(bodyparser.json());
 app.use(express.json());
 
 //API Endpoints
-// app.use("/api/posts", postApi);
+app.use("/api/posts", postApi);
 app.use("/api/users", userApi);
 // app.use("/api/profile", profileApi);
 
