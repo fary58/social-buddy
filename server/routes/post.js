@@ -54,4 +54,49 @@ app.post("/upload", upload.array("images", 5), (req, res) => {
   }
 });
 
+app.post('/upload/video', upload.array('video', 5), (req, res) => {
+    try {
+      console.log("Video")
+      const imageBlob = req.body.images;
+      const imageName = `${req.body.name}`;
+  
+      // Create directory if it doesn't exist
+      const uploadDir = path.join(__dirname, 'uploads/video');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir);
+      }
+  
+      // Construct image path
+      const randomSixDigitNumber = generateRandomNumber();
+  
+      const imagePath = path.join(uploadDir, `${imageName}-${randomSixDigitNumber}.mp4`);
+      let base64Image = imageBlob.split(';base64,').pop();
+  
+      // Write image data to file
+      fs.writeFile(imagePath, base64Image, { encoding: 'base64' }, async (err) => {
+        if (err) {
+          console.error('Error saving image:', err);
+          return res.status(500).send('Failed to save image.');
+        }
+        const postdata = new postModel({
+          imgPath: imagePath,
+          name: imageName,
+          format: "video",
+          desc: req.body.desc,
+          likes: req.body.likes,
+          liked: req.body.liked,
+          userId : req.body.userId
+        });
+        await postdata.save();
+  
+        console.log('Image saved successfully:', imagePath);
+        res.status(200).send('Image uploaded successfully.');
+      })
+    }
+    catch (err) {
+      console.log("Error ", err)
+      res.status(500).send({ message: err })
+    }
+  });
+
 module.exports = app;
