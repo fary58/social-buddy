@@ -70,7 +70,7 @@ const PostShare = () => {
       } catch (error) {
         console.error("Error uploading image:", error);
       }
-      window.location.reload()
+      // window.location.reload()
     }
     else {
       console.log("Hit in the video")

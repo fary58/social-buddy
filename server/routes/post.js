@@ -6,11 +6,19 @@ const postModel = require("../models/postModel");
 
 const app = express();
 
-var upload = multer({ dest: "./uploads" });
+const upload = multer({
+  dest: "./uploads",
+  limits: { fieldSize: 25 * 1024 * 1024 }, // 25MB
+});
 
 function generateRandomNumber() {
   return Math.floor(100000 + Math.random() * 900000);
 }
+
+app.get("/fetchAllPosts", async (req, res) => {
+  const data = await postModel.find();
+  res.send(data);
+});
 
 app.post("/upload", upload.array("images", 5), (req, res) => {
   try {
@@ -29,54 +37,66 @@ app.post("/upload", upload.array("images", 5), (req, res) => {
       `${imageName}-${randomSixDigitNumber}.png`
     );
     let base64Image = imageBlob.split(";base64,").pop();
-    fs.writeFile(imagePath, base64Image, { encoding: 'base64' }, async (err) => {
+    fs.writeFile(
+      imagePath,
+      base64Image,
+      { encoding: "base64" },
+      async (err) => {
         if (err) {
-          console.error('Error saving image:', err);
-          return res.status(500).send('Failed to save image.');
+          console.error("Error saving image:", err);
+          return res.status(500).send("Failed to save image.");
         }
         const postdata = new postModel({
           imgPath: imagePath,
           name: imageName,
           format: "image",
-          userId : userId,
+          userId: userId,
           desc: req.body.desc,
           likes: req.body.likes,
-          liked: req.body.liked
+          liked: req.body.liked,
         });
         await postdata.save();
-  
-        console.log('Image saved successfully:', imagePath);
-        res.status(200).send('Image uploaded successfully.');
-      })
+
+        console.log("Image saved successfully:", imagePath);
+        res.status(200).send("Image uploaded successfully.");
+      }
+    );
   } catch (err) {
     console.log("Error ", err);
     res.status(500).send({ message: err });
   }
 });
 
-app.post('/upload/video', upload.array('video', 5), (req, res) => {
-    try {
-      console.log("Video")
-      const imageBlob = req.body.images;
-      const imageName = `${req.body.name}`;
-  
-      // Create directory if it doesn't exist
-      const uploadDir = path.join(__dirname, 'uploads/video');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir);
-      }
-  
-      // Construct image path
-      const randomSixDigitNumber = generateRandomNumber();
-  
-      const imagePath = path.join(uploadDir, `${imageName}-${randomSixDigitNumber}.mp4`);
-      let base64Image = imageBlob.split(';base64,').pop();
-  
-      // Write image data to file
-      fs.writeFile(imagePath, base64Image, { encoding: 'base64' }, async (err) => {
+app.post("/upload/video", upload.array("video", 5), (req, res) => {
+  try {
+    console.log("Video");
+    const imageBlob = req.body.images;
+    const imageName = `${req.body.name}`;
+
+    // Create directory if it doesn't exist
+    const uploadDir = path.join(__dirname, "uploads/video");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+
+    // Construct image path
+    const randomSixDigitNumber = generateRandomNumber();
+
+    const imagePath = path.join(
+      uploadDir,
+      `${imageName}-${randomSixDigitNumber}.mp4`
+    );
+    let base64Image = imageBlob.split(";base64,").pop();
+
+    // Write image data to file
+    fs.writeFile(
+      imagePath,
+      base64Image,
+      { encoding: "base64" },
+      async (err) => {
         if (err) {
-          console.error('Error saving image:', err);
-          return res.status(500).send('Failed to save image.');
+          console.error("Error saving image:", err);
+          return res.status(500).send("Failed to save image.");
         }
         const postdata = new postModel({
           imgPath: imagePath,
@@ -85,18 +105,18 @@ app.post('/upload/video', upload.array('video', 5), (req, res) => {
           desc: req.body.desc,
           likes: req.body.likes,
           liked: req.body.liked,
-          userId : req.body.userId
+          userId: req.body.userId,
         });
         await postdata.save();
-  
-        console.log('Image saved successfully:', imagePath);
-        res.status(200).send('Image uploaded successfully.');
-      })
-    }
-    catch (err) {
-      console.log("Error ", err)
-      res.status(500).send({ message: err })
-    }
-  });
+
+        console.log("Image saved successfully:", imagePath);
+        res.status(200).send("Image uploaded successfully.");
+      }
+    );
+  } catch (err) {
+    console.log("Error ", err);
+    res.status(500).send({ message: err });
+  }
+});
 
 module.exports = app;
