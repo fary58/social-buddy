@@ -16,9 +16,25 @@ function generateRandomNumber() {
 }
 
 app.get("/fetchAllPosts", async (req, res) => {
-  const data = await postModel.find();
-  res.send(data);
-});
+    try {
+      const data = await postModel.find();
+      const modifiedData = await Promise.all(data.map((post) => {
+        // Read the video file content
+        const newObj = {...post};
+        const videoContent = fs.readFileSync(post.imgPath);
+        console.log("Path", post.imgPath)
+        // Convert the video content to base64
+        // const base64Video = videoContent.toString('base64');
+        // newObj.postBase64 = base64Video;
+        // return newObj;
+      }));
+      res.status(200).send(modifiedData)
+    }
+    catch (err) {
+      console.log("Error ", err)
+      res.status(500).send({ message: err })
+    }
+  })
 
 app.post("/upload", upload.array("images", 5), (req, res) => {
   try {
