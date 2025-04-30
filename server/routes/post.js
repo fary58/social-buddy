@@ -22,11 +22,11 @@ app.get("/fetchAllPosts", async (req, res) => {
         // Read the video file content
         const newObj = {...post};
         const videoContent = fs.readFileSync(post.imgPath);
-        console.log("Path", post.imgPath)
+        // console.log("Path", post.imgPath)
         // Convert the video content to base64
-        // const base64Video = videoContent.toString('base64');
-        // newObj.postBase64 = base64Video;
-        // return newObj;
+        const base64Video = videoContent.toString('base64');
+        newObj.postBase64 = base64Video;
+        return newObj;
       }));
       res.status(200).send(modifiedData)
     }
@@ -125,7 +125,7 @@ app.post("/upload/video", upload.array("video", 5), (req, res) => {
         });
         await postdata.save();
 
-        console.log("Image saved successfully:", imagePath);
+        // console.log("Image saved successfully:", imagePath);
         res.status(200).send("Image uploaded successfully.");
       }
     );

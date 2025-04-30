@@ -4,6 +4,13 @@
     gap: 1rem;
     
 }
+.Posts .Post{
+text-align: center;
+}
+.imagePreview{
+    width: 80%;
+    height: 490px;
+}
 
 .commentinput{
     width: 60%;
@@ -13,4 +20,9 @@
     /* margin-left: 10%; */
     border: 1px solid rgb(4, 115, 143);
     border-radius: 9px;
+}
+
+.postReact{
+    display: flex;
+    justify-content: space-evenly;
 }

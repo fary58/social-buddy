@@ -21,7 +21,7 @@ app.use(express.json());
 //API Endpoints
 app.use("/api/posts", postApi);
 app.use("/api/users", userApi);
-// app.use("/api/profile", profileApi);
+app.use("/api/profile", profileApi);
 
 //Testing
 app.get("/", (req, res) => {
